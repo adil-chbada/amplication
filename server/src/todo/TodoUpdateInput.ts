@@ -1,0 +1,2 @@
+class TodoUpdateInput {}
+export { TodoUpdateInput };
