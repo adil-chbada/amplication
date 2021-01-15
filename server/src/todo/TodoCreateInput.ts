@@ -1,0 +1,2 @@
+class TodoCreateInput {}
+export { TodoCreateInput };
