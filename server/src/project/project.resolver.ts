@@ -14,6 +14,8 @@ import { DeleteProjectArgs } from "./DeleteProjectArgs";
 import { FindManyProjectArgs } from "./FindManyProjectArgs";
 import { FindOneProjectArgs } from "./FindOneProjectArgs";
 import { Project } from "./Project";
+import { FindManyTodoArgs } from "../todo/FindManyTodoArgs";
+import { Todo } from "../todo/Todo";
 import { User } from "../user/User";
 
 @graphql.Resolver(() => Project)
@@ -185,6 +187,30 @@ export class ProjectResolver {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Todo])
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "read",
+    possession: "any",
+  })
+  async todos(
+    @graphql.Parent() parent: Project,
+    @graphql.Args() args: FindManyTodoArgs,
+    @gqlUserRoles.UserRoles() userRoles: string[]
+  ): Promise<Todo[]> {
+    const permission = this.rolesBuilder.permission({
+      role: userRoles,
+      action: "read",
+      possession: "any",
+      resource: "Todo",
+    });
+    const results = await this.service
+      .findOne({ where: { id: parent.id } })
+      // @ts-ignore
+      .test(args);
+    return results.map((result) => permission.filter(result));
   }
 
   @graphql.ResolveField(() => User, { nullable: true })

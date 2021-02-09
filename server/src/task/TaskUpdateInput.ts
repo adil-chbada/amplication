@@ -11,7 +11,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { ProjectWhereUniqueInput } from "../project/ProjectWhereUniqueInput";
-import { EnumStatus } from "./EnumStatus";
+import { EnumTaskStatus } from "./EnumTaskStatus";
 @InputType()
 class TaskUpdateInput {
   @ApiProperty({
@@ -58,11 +58,11 @@ class TaskUpdateInput {
   startDate?: Date;
   @ApiProperty({
     required: false,
-    enum: EnumStatus,
+    enum: EnumTaskStatus,
   })
-  @IsEnum(EnumStatus)
+  @IsEnum(EnumTaskStatus)
   @IsOptional()
-  @Field(() => EnumStatus, {
+  @Field(() => EnumTaskStatus, {
     nullable: true,
   })
   status?: "new" | "pending" | "onHold" | "ongoing" | "done";

@@ -11,7 +11,7 @@ import {
   IsEnum,
 } from "class-validator";
 import { ProjectWhereUniqueInput } from "../project/ProjectWhereUniqueInput";
-import { EnumStatus } from "./EnumStatus";
+import { EnumTaskStatus } from "./EnumTaskStatus";
 @InputType()
 class TaskWhereInput {
   @ApiProperty({
@@ -74,11 +74,11 @@ class TaskWhereInput {
   startDate?: Date;
   @ApiProperty({
     required: false,
-    enum: EnumStatus,
+    enum: EnumTaskStatus,
   })
-  @IsEnum(EnumStatus)
+  @IsEnum(EnumTaskStatus)
   @IsOptional()
-  @Field(() => EnumStatus, {
+  @Field(() => EnumTaskStatus, {
     nullable: true,
   })
   status?: "new" | "pending" | "onHold" | "ongoing" | "done";
